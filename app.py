@@ -50,7 +50,7 @@ model = genai.GenerativeModel(
     system_instruction=system_instruction_text
 )
 
-st.title("곡수초 그림 선생님 챗봇😎")
+st.title("곡수초 O학년 그림 이야기 챗봇~")
 
 # 채팅 기록 초기화 (표시용 - 텍스트와 이미지를 함께 저장)
 if "messages" not in st.session_state:
@@ -90,10 +90,16 @@ with st.form(key="image_upload_form") as form:
     if st.session_state['use_camera']:
         # 카메라 모드일 때 카메라 입력 위젯 표시
         camera_image = st.camera_input("카메라로 그림/사진 찍기", key=input_widget_key)
+
+        # --- 추가된 부분: 카메라 버튼 설명 ---
+        if st.session_state['use_camera']:
+             st.info("카메라가 켜지면 보이는 화면에서 [Take Photo] 버튼을 눌러 사진을 찍고, [Clear photo] 버튼은 찍은 사진을 다시 지울 때 사용해요.")
+        # ------------------------------------
+
         if camera_image is not None:
             image_to_process = camera_image.getvalue()
             image_mime_type = camera_image.type
-            #st.write("카메라 사진을 확인했어요!") # 피드백은 제출 버튼 클릭 시 표시
+
 
     else:
         # 파일 업로드 모드일 때 파일 업로더 위젯 표시
@@ -101,7 +107,7 @@ with st.form(key="image_upload_form") as form:
         if uploaded_file is not None:
             image_to_process = uploaded_file.getvalue()
             image_mime_type = uploaded_file.type
-            #st.write("올려준 그림/사진을 확인했어요!") # 피드백은 제출 버튼 클릭 시 표시
+
 
     # 제출 버튼
     submit_button = st.form_submit_button("선생님께 그림/사진 보여주기!")
@@ -142,6 +148,8 @@ with st.form(key="image_upload_form") as form:
                         # form 객체가 None이 아닌지 확인 후 reset 호출
                         if form is not None: # 'NoneType' 오류 방지 확인
                            form.reset()
+                           # 폼 리셋 후, 현재 모드를 다시 파일 업로드 모드로 변경하여 초기 상태로 돌아가게 할 수도 있습니다.
+                           # st.session_state['use_camera'] = False # 필요하다면 이 라인 추가
                         # -------------------
 
                     except Exception as e:
