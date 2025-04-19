@@ -50,7 +50,7 @@ model = genai.GenerativeModel(
     system_instruction=system_instruction_text
 )
 
-st.title("곡수초 O학년 그림 이야기 챗봇~")
+st.title("곡수초 그림 선생님 챗봇😊")
 
 # 채팅 기록 초기화 (표시용 - 텍스트와 이미지를 함께 저장)
 if "messages" not in st.session_state:
